@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityMainBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     @Override
