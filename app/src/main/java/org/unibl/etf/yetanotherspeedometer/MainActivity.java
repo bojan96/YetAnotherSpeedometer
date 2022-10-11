@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityMainBinding;
+import org.unibl.etf.yetanotherspeedometer.service.LocationService;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -19,6 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName();
+
+    @Inject
+    public LocationService locationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
