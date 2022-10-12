@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityMainBinding;
-import org.unibl.etf.yetanotherspeedometer.service.LocationService;
+import org.unibl.etf.yetanotherspeedometer.location.LocationService;
 
 import javax.inject.Inject;
 

@@ -18,7 +18,7 @@
         android:theme="@style/Theme.YetAnotherSpeedometer"
         tools:targetApi="31" >
         <service
-            android:name=".service.LocationService"
+            android:name=".location.LocationService"
             android:enabled="true"
             android:exported="false" />
 
