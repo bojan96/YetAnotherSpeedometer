@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Yet Another Speedometer</string>
+    <string name="location_notification_channel_id">location_channel</string>
+    <string name="location_notification_channel_name">Location service running</string>
+    <string name="location_notification_title">Location service</string>
+    <string name="location_notification_text">Location service is running</string>
 </resources>

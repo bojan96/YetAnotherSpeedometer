@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:textSize="100sp"
             android:fontFamily="monospace"
+            android:text='@{String.format("%03d", viewModel.currentSpeed != null ? (int)viewModel.currentSpeed : 0)}'
             tools:text="000"/>
         <TextView
             android:id="@+id/current_speed_unit"
@@ -31,5 +32,14 @@
             app:layout_constraintTop_toBottomOf="@id/current_speed"
             android:textSize="25sp"
             android:text="km/h"/>
+        <TextView
+            android:id="@+id/update_count_view"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="50sp"
+            android:text="@{viewModel.updateCount}"
+            tools:text="0"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

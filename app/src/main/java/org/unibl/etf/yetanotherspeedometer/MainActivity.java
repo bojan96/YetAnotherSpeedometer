@@ -7,6 +7,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,8 +37,22 @@ public class MainActivity extends AppCompatActivity {
         var viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
+        getLifecycle().addObserver(viewModel);
         setContentView(binding.getRoot());
+
         checkPermissions();
+        createNotificationChannels();
+
+        startForegroundService(new Intent(this, LocationService.class));
+    }
+
+    private void createNotificationChannels()
+    {
+        var channel = new NotificationChannel(getString(R.string.location_notification_channel_id),
+                getString(R.string.location_notification_channel_name),
+                NotificationManager.IMPORTANCE_DEFAULT);
+
+        getSystemService(NotificationManager.class).createNotificationChannel(channel);
     }
 
     private void checkPermissions()
@@ -63,5 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
             permissionLauncher.launch(new String[] { ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION });
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this, LocationService.class));
     }
 }
