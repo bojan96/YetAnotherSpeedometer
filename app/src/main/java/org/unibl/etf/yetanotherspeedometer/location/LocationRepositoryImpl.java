@@ -15,8 +15,7 @@ import javax.inject.Inject;
 public class LocationRepositoryImpl implements LocationRepository {
 
     private MutableLiveData<Double> currentSpeed = new MutableLiveData<>(0.0);
-    private Location loc;
-    private final int id = new Random().nextInt();
+    private MutableLiveData<Location> currentLocation = new MutableLiveData<>();
 
     @Inject
     public LocationRepositoryImpl()
@@ -29,8 +28,14 @@ public class LocationRepositoryImpl implements LocationRepository {
         return currentSpeed;
     }
 
+    @Override
+    public LiveData<Location> getCurrentLocation() {
+        return currentLocation;
+    }
+
     public void addLocation(Location location)
     {
         currentSpeed.setValue((double)location.getSpeed());
+        currentLocation.setValue(location);
     }
 }

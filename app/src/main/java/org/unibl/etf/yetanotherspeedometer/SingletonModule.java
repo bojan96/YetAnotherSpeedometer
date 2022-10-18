@@ -3,6 +3,7 @@ package org.unibl.etf.yetanotherspeedometer;
 import android.app.Application;
 import android.location.LocationManager;
 
+import org.unibl.etf.yetanotherspeedometer.location.AverageSpeedUseCase;
 import org.unibl.etf.yetanotherspeedometer.location.LocationRepositoryImpl;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 
@@ -27,4 +28,12 @@ public abstract class SingletonModule {
     @Binds
     @Singleton
     public abstract LocationRepository getLocationRepository(LocationRepositoryImpl locationRepository);
+
+    @Provides
+    @Singleton
+    public static AverageSpeedUseCase getAverageSpeedUseCase(LocationRepository locationRepo)
+    {
+        return new AverageSpeedUseCase(locationRepo);
+    }
+
 }

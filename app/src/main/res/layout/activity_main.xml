@@ -41,5 +41,15 @@
             android:textSize="50sp"
             android:text="@{viewModel.updateCount}"
             tools:text="0"/>
+
+        <TextView
+            android:id="@+id/debug_average_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="0"
+            android:textSize="50sp"
+            android:text='@{viewModel.averageSpeed != null ? String.format("%.2f", viewModel.averageSpeed) : "N/A"}'/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
