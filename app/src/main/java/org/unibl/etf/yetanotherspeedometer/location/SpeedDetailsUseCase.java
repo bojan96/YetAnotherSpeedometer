@@ -17,6 +17,7 @@ public class SpeedDetailsUseCase {
     private final LocationRepository locationRepository;
     private final MutableLiveData<Double> currentAverageSpeed = new MutableLiveData<>();
     private final MutableLiveData<Double> currentTotalDistance = new MutableLiveData<>();
+    private final MutableLiveData<Double> currentMaxSpeed = new MutableLiveData<>(0.0);
     private final MutableLiveData<Long> currentTotalTime = new MutableLiveData<>();
     private Location lastLocation;
     private long lastTimestamp;
@@ -34,7 +35,7 @@ public class SpeedDetailsUseCase {
         }
 
         double distance = location.distanceTo(lastLocation);
-        if(distance < 1)
+        if(distance < 0.5)
             return;
 
         totalDistance += distance;
@@ -46,6 +47,9 @@ public class SpeedDetailsUseCase {
         var averageSpeed = totalDistance * 1e9 / totalTime;
         Log.d(TAG, String.format("Total distance = %f, total time = %f, average speed = %f",
                 totalDistance, totalTime / 1e9, averageSpeed));
+
+        if(location.getSpeed() > currentMaxSpeed.getValue())
+            currentMaxSpeed.postValue((double) location.getSpeed());
         currentAverageSpeed.postValue(averageSpeed);
         currentTotalDistance.postValue(totalDistance);
         currentTotalTime.postValue(totalTime);
@@ -68,6 +72,10 @@ public class SpeedDetailsUseCase {
 
     public LiveData<Long> getCurrentTotalTime() {
         return currentTotalTime;
+    }
+
+    public LiveData<Double> getCurrentMaxSpeed() {
+        return currentMaxSpeed;
     }
 
     public void startCalcuating()
