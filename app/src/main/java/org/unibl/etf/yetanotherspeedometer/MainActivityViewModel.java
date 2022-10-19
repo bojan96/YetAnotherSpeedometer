@@ -24,6 +24,7 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
 
     private final MutableLiveData<Double> currentSpeed = new MutableLiveData<>(null);
     private final MutableLiveData<String> updateCount = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isRecording = new MutableLiveData<>(false);
     private final LocationRepository locationRepository;
     private final SpeedDetailsUseCase speedDetailsUseCase;
     private final Observer<Double> obs = value ->
@@ -51,6 +52,28 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
     public LiveData<Double> getAverageSpeed()
     {
         return Transformations.map(speedDetailsUseCase.getCurrentAverageSpeed(), averageSpeed -> averageSpeed * 3.6);
+    }
+
+    public LiveData<Boolean> getIsRecording() {
+        return isRecording;
+    }
+
+    public void toggleRecording()
+    {
+        if(isRecording.getValue())
+            stopRecording();
+        else
+            startRecording();
+    }
+
+    private void stopRecording()
+    {
+        isRecording.setValue(false);
+    }
+
+    private void startRecording()
+    {
+        isRecording.setValue(true);
     }
 
     @Override
