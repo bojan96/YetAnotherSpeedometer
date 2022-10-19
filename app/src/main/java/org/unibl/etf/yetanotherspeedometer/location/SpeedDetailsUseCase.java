@@ -1,7 +1,6 @@
 package org.unibl.etf.yetanotherspeedometer.location;
 
 import android.location.Location;
-import android.media.AudioManager;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -12,9 +11,9 @@ import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 
 import javax.inject.Inject;
 
-public class AverageSpeedUseCase {
+public class SpeedDetailsUseCase {
 
-    private static final String TAG = AverageSpeedUseCase.class.getSimpleName();
+    private static final String TAG = SpeedDetailsUseCase.class.getSimpleName();
     private final LocationRepository locationRepository;
     private final MutableLiveData<Double> currentAverageSpeed = new MutableLiveData<>();
     private final MutableLiveData<Double> currentTotalDistance = new MutableLiveData<>();
@@ -53,7 +52,7 @@ public class AverageSpeedUseCase {
     };
 
     @Inject
-    public AverageSpeedUseCase(LocationRepository locationRepository)
+    public SpeedDetailsUseCase(LocationRepository locationRepository)
     {
         this.locationRepository = locationRepository;
     }
