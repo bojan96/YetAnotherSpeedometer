@@ -18,6 +18,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="100sp"
@@ -32,6 +33,103 @@
             app:layout_constraintTop_toBottomOf="@id/current_speed"
             android:textSize="25sp"
             android:text="km/h"/>
+
+        <TextView
+            android:id="@+id/average_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:layout_marginTop="@dimen/additional_details_margin_top"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@id/current_speed_unit"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/total_distance"
+            android:textSize="@dimen/additional_details_text_size"
+            android:text="000 km/h"/>
+        <TextView
+            android:id="@+id/total_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/additional_details_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/current_speed_unit"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/average_speed"
+            android:textSize="@dimen/additional_details_text_size"
+            android:text="000 km"/>
+
+        <TextView
+            android:id="@+id/average_speed_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/average_speed"
+            app:layout_constraintEnd_toEndOf="@id/average_speed"
+            app:layout_constraintTop_toBottomOf="@id/average_speed"
+            android:textSize="@dimen/additional_details_label_text_size"
+            android:text="Average speed"/>
+
+        <TextView
+            android:id="@+id/total_distance_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/total_distance"
+            app:layout_constraintStart_toStartOf="@id/total_distance"
+            app:layout_constraintEnd_toEndOf="@id/total_distance"
+            android:textSize="@dimen/additional_details_label_text_size"
+            android:text="Total distance"/>
+
+        <TextView
+            android:id="@+id/max_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/additional_details_spacing"
+            app:layout_constraintTop_toBottomOf="@id/average_speed_label"
+            app:layout_constraintStart_toStartOf="@id/average_speed"
+            app:layout_constraintEnd_toEndOf="@id/average_speed"
+            android:textSize="@dimen/additional_details_text_size"
+            android:text="000 km/h"/>
+
+        <TextView
+            android:id="@+id/total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/additional_details_spacing"
+            app:layout_constraintTop_toBottomOf="@id/total_distance_label"
+            app:layout_constraintStart_toStartOf="@id/total_distance_label"
+            app:layout_constraintEnd_toEndOf="@id/total_distance_label"
+            android:textSize="@dimen/additional_details_text_size"
+            android:text="000 km/h"/>
+
+        <TextView
+            android:id="@+id/max_speed_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/max_speed"
+            app:layout_constraintStart_toStartOf="@id/max_speed"
+            app:layout_constraintEnd_toEndOf="@id/max_speed"
+            android:textSize="@dimen/additional_details_label_text_size"
+            android:text="Max speed"/>
+
+        <TextView
+            android:id="@+id/total_time_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/total_time"
+            app:layout_constraintStart_toStartOf="@id/total_time"
+            app:layout_constraintEnd_toEndOf="@id/total_time"
+            android:textSize="@dimen/additional_details_label_text_size"
+            android:text="Total time"/>
+
+        <Button
+            android:id="@+id/record_button"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Start recording"
+            android:layout_marginBottom="50dp"/>
+
         <TextView
             android:id="@+id/update_count_view"
             android:layout_height="wrap_content"
@@ -51,5 +149,6 @@
             tools:text="0"
             android:textSize="50sp"
             android:text='@{viewModel.averageSpeed != null ? String.format("%.2f", viewModel.averageSpeed) : "N/A"}'/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

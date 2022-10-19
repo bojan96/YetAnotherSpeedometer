@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="additional_details_spacing">30dp</dimen>
+    <dimen name="additional_details_margin_top">30dp</dimen>
+    <dimen name="additional_details_text_size">20sp</dimen>
+    <dimen name="additional_details_label_text_size">15sp</dimen>
+</resources>
