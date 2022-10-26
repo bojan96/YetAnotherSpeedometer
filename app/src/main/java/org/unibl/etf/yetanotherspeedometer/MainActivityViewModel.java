@@ -58,6 +58,10 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
         return isRecording;
     }
 
+    public LiveData<Long> getRecordingDuration() {
+        return speedDetailsUseCase.getCurrentTotalTime();
+    }
+
     public void toggleRecording()
     {
         if(isRecording.getValue())
@@ -68,23 +72,24 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
 
     private void stopRecording()
     {
+        speedDetailsUseCase.stopCalculating();
         isRecording.setValue(false);
     }
 
     private void startRecording()
     {
+        speedDetailsUseCase.startCalcuating();
         isRecording.setValue(true);
     }
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
         locationRepository.getCurrentSpeed().observeForever(obs);
-        speedDetailsUseCase.startCalcuating();
+
     }
 
     @Override
     public void onDestroy(@NonNull LifecycleOwner owner) {
-        speedDetailsUseCase.stopCalculating();
         locationRepository.getCurrentSpeed().removeObserver(obs);
     }
 }

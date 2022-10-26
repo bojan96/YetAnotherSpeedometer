@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
+import org.unibl.etf.yetanotherspeedometer.util.DetailsTimer;
 
 import javax.inject.Inject;
 
@@ -19,6 +20,7 @@ public class SpeedDetailsUseCase {
     private final MutableLiveData<Double> currentTotalDistance = new MutableLiveData<>();
     private final MutableLiveData<Double> currentMaxSpeed = new MutableLiveData<>(0.0);
     private final MutableLiveData<Long> currentTotalTime = new MutableLiveData<>();
+    private final DetailsTimer timer = new DetailsTimer();
     private Location lastLocation;
     private long lastTimestamp;
     private long totalTime = 0;
@@ -52,7 +54,6 @@ public class SpeedDetailsUseCase {
             currentMaxSpeed.postValue((double) location.getSpeed());
         currentAverageSpeed.postValue(averageSpeed);
         currentTotalDistance.postValue(totalDistance);
-        currentTotalTime.postValue(totalTime);
     };
 
     @Inject
@@ -71,7 +72,7 @@ public class SpeedDetailsUseCase {
     }
 
     public LiveData<Long> getCurrentTotalTime() {
-        return currentTotalTime;
+        return timer.getCurrentTime();
     }
 
     public LiveData<Double> getCurrentMaxSpeed() {
@@ -80,11 +81,13 @@ public class SpeedDetailsUseCase {
 
     public void startCalcuating()
     {
+        timer.restart();
         locationRepository.getCurrentLocation().observeForever(locationObserver);
     }
 
     public void stopCalculating()
     {
+        timer.stop();
         locationRepository.getCurrentLocation().removeObserver(locationObserver);
     }
 

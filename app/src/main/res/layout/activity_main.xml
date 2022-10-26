@@ -104,7 +104,7 @@
             app:layout_constraintEnd_toEndOf="@id/total_distance_label"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text="000 km/h"/>
+            android:text='@{String.format("%d", viewModel.recordingDuration)}'/>
 
         <TextView
             android:id="@+id/max_speed_label"
