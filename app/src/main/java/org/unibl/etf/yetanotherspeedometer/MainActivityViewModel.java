@@ -62,6 +62,21 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
         return speedDetailsUseCase.getCurrentTotalTime();
     }
 
+    public LiveData<Double> getCurrentAverageSpeed()
+    {
+        return Transformations.map(speedDetailsUseCase.getCurrentAverageSpeed(), speed -> speed * 3.6);
+    }
+
+    public LiveData<Double> getCurrentMaxSpeed()
+    {
+        return Transformations.map(speedDetailsUseCase.getCurrentMaxSpeed(), speed -> speed * 3.6);
+    }
+
+    public LiveData<Double> getCurrentTotalDistance()
+    {
+        return speedDetailsUseCase.getCurrentTotalDistance();
+    }
+
     public void toggleRecording()
     {
         if(isRecording.getValue())

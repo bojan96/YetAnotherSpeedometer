@@ -47,7 +47,8 @@
             app:layout_constraintRight_toLeftOf="@id/total_distance"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text="000 km/h"/>
+            android:text='@{String.format("%d km/h", (int)viewModel.currentAverageSpeed)}'
+            tools:text="000 km/h"/>
         <TextView
             android:id="@+id/total_distance"
             android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
             app:layout_constraintLeft_toRightOf="@id/average_speed"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text="000 km"/>
+            android:text='@{String.format("%d km", (int)viewModel.currentTotalDistance)}'
+            tools:text="000 km"/>
 
         <TextView
             android:id="@+id/average_speed_label"
@@ -92,7 +94,8 @@
             app:layout_constraintEnd_toEndOf="@id/average_speed"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text="000 km/h"/>
+            android:text='@{String.format("%d km/h", (int)viewModel.currentMaxSpeed)}'
+            tools:text="000 km/h"/>
 
         <TextView
             android:id="@+id/total_time"
@@ -104,7 +107,8 @@
             app:layout_constraintEnd_toEndOf="@id/total_distance_label"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text='@{String.format("%d", viewModel.recordingDuration)}'/>
+            android:text='@{String.format("%ds", viewModel.recordingDuration)}'
+            tools:text="00s"/>
 
         <TextView
             android:id="@+id/max_speed_label"
