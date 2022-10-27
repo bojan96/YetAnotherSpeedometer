@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class LocationService extends Service {
 
-    private static final int NOTIFICATION_ID = 1;
     private boolean isStarted = false;
 
     @Inject
@@ -51,7 +50,7 @@ public class LocationService extends Service {
             Log.d(LocationService.class.getName(), "Trying to start service again");
             return Service.START_NOT_STICKY;
         }
-        startForeground(NOTIFICATION_ID, new Notification.Builder(this, getString(R.string.location_notification_channel_id))
+        startForeground(getResources().getInteger(R.integer.speed_details_notification_id), new Notification.Builder(this, getString(R.string.location_notification_channel_id))
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(getString(R.string.location_notification_title))
                 .setContentText(getString(R.string.location_notification_text))
