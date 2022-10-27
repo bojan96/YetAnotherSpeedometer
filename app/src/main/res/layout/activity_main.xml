@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:test="fsf">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
@@ -48,7 +47,7 @@
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
             android:text='@{String.format("%d km/h", (int)viewModel.currentAverageSpeed)}'
-            tools:text="000 km/h"/>
+            tools:text="0 km/h"/>
         <TextView
             android:id="@+id/total_distance"
             android:layout_width="wrap_content"
@@ -59,8 +58,8 @@
             app:layout_constraintLeft_toRightOf="@id/average_speed"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text='@{String.format("%d km", (int)viewModel.currentTotalDistance)}'
-            tools:text="000 km"/>
+            android:text='@{String.format("%dm", (int)viewModel.currentTotalDistance)}'
+            tools:text="0 m"/>
 
         <TextView
             android:id="@+id/average_speed_label"
@@ -95,7 +94,7 @@
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
             android:text='@{String.format("%d km/h", (int)viewModel.currentMaxSpeed)}'
-            tools:text="000 km/h"/>
+            tools:text="0 km/h"/>
 
         <TextView
             android:id="@+id/total_time"
@@ -108,7 +107,7 @@
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
             android:text='@{String.format("%ds", viewModel.recordingDuration)}'
-            tools:text="00s"/>
+            tools:text="0 s"/>
 
         <TextView
             android:id="@+id/max_speed_label"
