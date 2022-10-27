@@ -16,10 +16,9 @@ public class SpeedDetailsUseCase {
 
     private static final String TAG = SpeedDetailsUseCase.class.getSimpleName();
     private final LocationRepository locationRepository;
-    private final MutableLiveData<Double> currentAverageSpeed = new MutableLiveData<>();
-    private final MutableLiveData<Double> currentTotalDistance = new MutableLiveData<>();
+    private final MutableLiveData<Double> currentAverageSpeed = new MutableLiveData<>(0.0);
+    private final MutableLiveData<Double> currentTotalDistance = new MutableLiveData<>(0.0);
     private final MutableLiveData<Double> currentMaxSpeed = new MutableLiveData<>(0.0);
-    private final MutableLiveData<Long> currentTotalTime = new MutableLiveData<>();
     private final DetailsTimer timer = new DetailsTimer();
     private Location lastLocation;
     private long lastTimestamp;
