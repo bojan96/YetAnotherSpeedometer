@@ -82,10 +82,4 @@ public class MainActivity extends AppCompatActivity {
             permissionLauncher.launch(new String[] { ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION });
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        stopService(new Intent(this, LocationService.class));
-    }
 }

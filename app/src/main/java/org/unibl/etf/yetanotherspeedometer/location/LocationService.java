@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class LocationService extends Service {
 
     private static final int NOTIFICATION_ID = 1;
+    private boolean isStarted = false;
 
     @Inject
     public LocationManager locationManager;
@@ -45,12 +46,18 @@ public class LocationService extends Service {
     @SuppressLint("MissingPermission")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if(isStarted)
+        {
+            Log.d(LocationService.class.getName(), "Trying to start service again");
+            return Service.START_NOT_STICKY;
+        }
         startForeground(NOTIFICATION_ID, new Notification.Builder(this, getString(R.string.location_notification_channel_id))
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(getString(R.string.location_notification_title))
                 .setContentText(getString(R.string.location_notification_text))
                 .build());
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, locationListener);
+        isStarted = true;
         return Service.START_NOT_STICKY;
     }
 
