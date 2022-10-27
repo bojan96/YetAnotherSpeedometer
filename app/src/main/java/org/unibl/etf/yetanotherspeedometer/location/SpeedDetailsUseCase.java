@@ -81,6 +81,7 @@ public class SpeedDetailsUseCase {
 
     public void startCalcuating()
     {
+        resetState();
         timer.restart();
         locationRepository.getCurrentLocation().observeForever(locationObserver);
     }
@@ -89,6 +90,18 @@ public class SpeedDetailsUseCase {
     {
         timer.stop();
         locationRepository.getCurrentLocation().removeObserver(locationObserver);
+    }
+
+
+    private void resetState()
+    {
+        currentMaxSpeed.setValue(0.0);
+        currentAverageSpeed.setValue(0.0);
+        currentTotalDistance.setValue(0.0);
+        totalDistance = 0;
+        totalTime = 0;
+        lastLocation = null;
+        lastTimestamp = 0;
     }
 
 }
