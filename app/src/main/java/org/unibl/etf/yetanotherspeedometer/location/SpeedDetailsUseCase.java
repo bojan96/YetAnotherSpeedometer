@@ -31,14 +31,15 @@ public class SpeedDetailsUseCase {
         Log.d(TAG, String.format("Last timestamp = %d", lastTimestamp));
         if(lastLocation == null) {
             lastLocation = location;
-            location.distanceTo(location);
             lastTimestamp = System.nanoTime();
             return;
         }
 
         double distance = location.distanceTo(lastLocation);
-        if(distance < 0.5)
+        if(distance < 1) {
+            lastTimestamp = System.nanoTime();
             return;
+        }
 
         totalDistance += distance;
         lastLocation = location;
