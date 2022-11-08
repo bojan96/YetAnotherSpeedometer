@@ -129,7 +129,7 @@
             app:layout_constraintEnd_toEndOf="@id/total_time"
             android:textSize="@dimen/additional_details_label_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text="Total time"/>
+            android:text="Elapsed time"/>
 
         <Button
             android:id="@+id/record_button"
