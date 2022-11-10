@@ -7,9 +7,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ElapsedTimeTimer {
-    private final Timer timer = new Timer();
+    private Timer timer;
     private TimerTask timerTask;
     private final MutableLiveData<Long> currentTime = new MutableLiveData<>(0L);
+
+    public ElapsedTimeTimer(Timer timer)
+    {
+        this.timer = timer;
+    }
 
     public void restart()
     {

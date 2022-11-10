@@ -19,7 +19,7 @@ public class SpeedDetailsUseCase {
     private final MutableLiveData<Double> currentAverageSpeed = new MutableLiveData<>(0.0);
     private final MutableLiveData<Double> currentTotalDistance = new MutableLiveData<>(0.0);
     private final MutableLiveData<Double> currentMaxSpeed = new MutableLiveData<>(0.0);
-    private final ElapsedTimeTimer timer = new ElapsedTimeTimer();
+    private ElapsedTimeTimer timer;
     private Location lastLocation;
     private long lastTimestamp;
     private long totalTime = 0;
@@ -57,9 +57,10 @@ public class SpeedDetailsUseCase {
     };
 
     @Inject
-    public SpeedDetailsUseCase(LocationRepository locationRepository)
+    public SpeedDetailsUseCase(LocationRepository locationRepository, ElapsedTimeTimer timer)
     {
         this.locationRepository = locationRepository;
+        this.timer = timer;
     }
 
     public LiveData<Double> getCurrentAverageSpeed()

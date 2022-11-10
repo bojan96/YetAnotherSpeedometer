@@ -6,6 +6,9 @@ import android.location.LocationManager;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.location.LocationRepositoryImpl;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
+import org.unibl.etf.yetanotherspeedometer.util.ElapsedTimeTimer;
+
+import java.util.Timer;
 
 import javax.inject.Singleton;
 
@@ -31,9 +34,22 @@ public abstract class SingletonModule {
 
     @Provides
     @Singleton
-    public static SpeedDetailsUseCase getAverageSpeedUseCase(LocationRepository locationRepo)
+    public static Timer getTimer()
     {
-        return new SpeedDetailsUseCase(locationRepo);
+        return new Timer();
+    }
+
+    @Provides
+    @Singleton
+    public static ElapsedTimeTimer getElapsedTimeTimer(Timer timer) {
+        return new ElapsedTimeTimer(timer);
+    }
+
+    @Provides
+    @Singleton
+    public static SpeedDetailsUseCase getAverageSpeedUseCase(LocationRepository locationRepo, ElapsedTimeTimer timer)
+    {
+        return new SpeedDetailsUseCase(locationRepo, timer);
     }
 
 }
