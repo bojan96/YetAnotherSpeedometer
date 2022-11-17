@@ -24,6 +24,7 @@ public class SpeedDetailsUseCase {
     private long lastTimestamp;
     private long totalTime = 0;
     private double totalDistance = 0;
+    private boolean isRecording = false;
 
     private final Observer<Location> locationObserver = location ->
     {
@@ -85,12 +86,14 @@ public class SpeedDetailsUseCase {
         resetState();
         timer.restart();
         locationRepository.getCurrentLocation().observeForever(locationObserver);
+        isRecording = true;
     }
 
     public void stopCalculating()
     {
         timer.stop();
         locationRepository.getCurrentLocation().removeObserver(locationObserver);
+        isRecording = false;
     }
 
 
@@ -105,4 +108,11 @@ public class SpeedDetailsUseCase {
         lastTimestamp = 0;
     }
 
+    public boolean isRecording() {
+        return isRecording;
+    }
+
+    public void setRecording(boolean recording) {
+        isRecording = recording;
+    }
 }

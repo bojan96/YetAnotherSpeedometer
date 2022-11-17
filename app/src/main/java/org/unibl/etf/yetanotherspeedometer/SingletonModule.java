@@ -1,10 +1,12 @@
 package org.unibl.etf.yetanotherspeedometer;
 
 import android.app.Application;
+import android.app.NotificationManager;
 import android.location.LocationManager;
 
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.location.LocationRepositoryImpl;
+import org.unibl.etf.yetanotherspeedometer.notification.SpeedDetailsNotifier;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 import org.unibl.etf.yetanotherspeedometer.util.ElapsedTimeTimer;
 
@@ -50,6 +52,24 @@ public abstract class SingletonModule {
     public static SpeedDetailsUseCase getAverageSpeedUseCase(LocationRepository locationRepo, ElapsedTimeTimer timer)
     {
         return new SpeedDetailsUseCase(locationRepo, timer);
+    }
+
+    @Provides
+    @Singleton
+    public static NotificationManager getNotificationManager(Application app)
+    {
+        return app.getSystemService(NotificationManager.class);
+    }
+
+    @Provides
+    @Singleton
+    public static SpeedDetailsNotifier getSpeedDetailsNotifier(LocationRepository locationRepository,
+                                                               SpeedDetailsUseCase speedDetailsUseCase,
+                                                               NotificationManager notificationManager,
+                                                               Application app,
+                                                               Timer timer)
+    {
+        return new SpeedDetailsNotifier(locationRepository, speedDetailsUseCase, app, timer, notificationManager);
     }
 
 }

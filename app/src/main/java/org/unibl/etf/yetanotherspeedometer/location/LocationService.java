@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.core.location.LocationListenerCompat;
 
 import org.unibl.etf.yetanotherspeedometer.R;
+import org.unibl.etf.yetanotherspeedometer.notification.SpeedDetailsNotifier;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 
 import javax.inject.Inject;
@@ -26,6 +27,8 @@ public class LocationService extends Service {
     public LocationManager locationManager;
     @Inject
     public LocationRepository locationRepository;
+    @Inject
+    public SpeedDetailsNotifier speedDetailsNotifier;
 
     public final LocationListenerCompat locationListener = location -> {
         Log.d(LocationService.class.getName(), String.format("Location update: (%f, %f) Speed = %f",
@@ -56,12 +59,14 @@ public class LocationService extends Service {
                 .setContentText(getString(R.string.location_notification_text))
                 .build());
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, locationListener);
+        speedDetailsNotifier.startNotifying();
         isStarted = true;
         return Service.START_NOT_STICKY;
     }
 
     @Override
     public void onDestroy() {
+        speedDetailsNotifier.stopNotifying();
         locationManager.removeUpdates(locationListener);
     }
 }
