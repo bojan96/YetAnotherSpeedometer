@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/recording_item_average_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/recording_item_distance"
+        tools:text="0 km/h"/>
+    <TextView
+        android:id="@+id/recording_item_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/recording_item_average_speed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="0 km"/>
+
+    <TextView
+        android:id="@+id/recording_item_average_speed_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/recording_item_average_speed"
+        app:layout_constraintTop_toBottomOf="@id/recording_item_average_speed"
+        app:layout_constraintEnd_toEndOf="@id/recording_item_average_speed"
+        app:constraintLeft="@id/recording_item_label"
+        android:text="Average speed"/>
+    <TextView
+        android:id="@+id/recording_item_distance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/recording_item_distance"
+        app:layout_constraintEnd_toEndOf="@id/recording_item_distance"
+        app:layout_constraintTop_toBottomOf="@id/recording_item_distance"
+        android:text="Distance"/>
+
+    <TextView
+        android:id="@+id/recording_item_max_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/recording_item_details_spacing"
+        app:layout_constraintStart_toStartOf="@id/recording_item_average_speed"
+        app:layout_constraintEnd_toEndOf="@id/recording_item_average_speed"
+        app:layout_constraintTop_toBottomOf="@id/recording_item_average_speed_label"
+        tools:text="0 km/h"/>
+
+    <TextView
+        android:id="@+id/recording_item_elapsed_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/recording_item_distance"
+        app:layout_constraintEnd_toEndOf="@id/recording_item_distance"
+        app:layout_constraintTop_toBottomOf="@id/recording_item_distance_label"
+        android:layout_marginTop="@dimen/recording_item_details_spacing"
+        tools:text="0 s"/>
+
+    <TextView
+        android:id="@+id/recording_item_max_speed_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/recording_item_max_speed"
+        app:layout_constraintStart_toStartOf="@id/recording_item_max_speed"
+        app:layout_constraintEnd_toEndOf="@id/recording_item_max_speed"
+        android:text="Max speed"/>
+    <TextView
+        android:id="@+id/recording_item_elapsed_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/recording_item_elapsed_time"
+        app:layout_constraintStart_toStartOf="@id/recording_item_elapsed_time"
+        app:layout_constraintEnd_toEndOf="@id/recording_item_elapsed_time"
+        android:text="Elapsed time"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

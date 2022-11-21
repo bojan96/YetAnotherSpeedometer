@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityRecordingsBinding;
+import org.unibl.etf.yetanotherspeedometer.recordings.ListAdapter;
+
+import java.util.stream.Stream;
 
 public class RecordingsActivity extends AppCompatActivity {
 
@@ -17,6 +20,7 @@ public class RecordingsActivity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         getLifecycle().addObserver(viewModel);
+        binding.recyclerView.setAdapter(new ListAdapter());
         setContentView(binding.getRoot());
     }
 }

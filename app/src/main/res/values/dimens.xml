@@ -4,4 +4,5 @@
     <dimen name="additional_details_margin_top">30dp</dimen>
     <dimen name="additional_details_text_size">20sp</dimen>
     <dimen name="additional_details_label_text_size">15sp</dimen>
+    <dimen name="recording_item_details_spacing">30dp</dimen>
 </resources>
