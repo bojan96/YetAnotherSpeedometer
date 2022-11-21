@@ -4,4 +4,5 @@
     <string name="location_notification_channel_name">Location service running</string>
     <string name="location_notification_title">Location service</string>
     <string name="location_notification_text">Location service is running</string>
+    <string name="action_recordings">Settings</string>
 </resources>

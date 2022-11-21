@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityMainBinding;
 import org.unibl.etf.yetanotherspeedometer.location.LocationService;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         var binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setSupportActionBar(binding.toolbar);
         var viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
@@ -44,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannels();
 
         startForegroundService(new Intent(this, LocationService.class));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
     }
 
     private void createNotificationChannels()
