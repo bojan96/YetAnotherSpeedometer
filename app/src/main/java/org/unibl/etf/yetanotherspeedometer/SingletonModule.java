@@ -4,6 +4,9 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.location.LocationManager;
 
+import androidx.room.Room;
+
+import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.location.LocationRepositoryImpl;
 import org.unibl.etf.yetanotherspeedometer.notification.SpeedDetailsNotifier;
@@ -72,4 +75,10 @@ public abstract class SingletonModule {
         return new SpeedDetailsNotifier(locationRepository, speedDetailsUseCase, app, timer, notificationManager);
     }
 
+
+    @Provides
+    public static AppDatabase getAppDatabase(Application app)
+    {
+        return Room.databaseBuilder(app, AppDatabase.class, "appDatabase").build();
+    }
 }
