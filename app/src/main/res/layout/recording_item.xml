@@ -20,7 +20,7 @@
         app:layout_constraintStart_toEndOf="@id/recording_item_average_speed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="0 km"/>
+        tools:text="0 m"/>
 
     <TextView
         android:id="@+id/recording_item_average_speed_label"
@@ -29,7 +29,6 @@
         app:layout_constraintStart_toStartOf="@id/recording_item_average_speed"
         app:layout_constraintTop_toBottomOf="@id/recording_item_average_speed"
         app:layout_constraintEnd_toEndOf="@id/recording_item_average_speed"
-        app:constraintLeft="@id/recording_item_label"
         android:text="Average speed"/>
     <TextView
         android:id="@+id/recording_item_distance_label"
