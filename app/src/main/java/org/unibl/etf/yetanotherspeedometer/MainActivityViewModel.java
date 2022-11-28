@@ -9,12 +9,17 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
+import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
 public class MainActivityViewModel extends ViewModel implements DefaultLifecycleObserver {
@@ -33,12 +38,14 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
         updateCount.postValue(String.format("%d %.2f", updateCountVal, value));
         currentSpeed.postValue(value * 3.6);
     };
+    private final AppDatabase appDatabase;
 
     @Inject
-    public MainActivityViewModel(LocationRepository locationRepository, SpeedDetailsUseCase speedDetailsUseCase)
+    public MainActivityViewModel(LocationRepository locationRepository, SpeedDetailsUseCase speedDetailsUseCase, AppDatabase appDatabase)
     {
         this.locationRepository = locationRepository;
         this.speedDetailsUseCase = speedDetailsUseCase;
+        this.appDatabase = appDatabase;
     }
 
     public MutableLiveData<Double> getCurrentSpeed() {
@@ -88,7 +95,24 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
     private void stopRecording()
     {
         speedDetailsUseCase.stopCalculating();
-        isRecording.setValue(false);
+        writeRecordingToDb()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> isRecording.setValue(false));
+    }
+
+    private Completable writeRecordingToDb()
+    {
+        var avgSpeed = speedDetailsUseCase.getCurrentAverageSpeed().getValue();
+        var maxSpeed = speedDetailsUseCase.getCurrentMaxSpeed().getValue();
+        var distance = speedDetailsUseCase.getCurrentTotalDistance().getValue();
+        var elapsedTime = speedDetailsUseCase.getCurrentTotalTime().getValue();
+        var recording = new Recording();
+        recording.avgSpeed = avgSpeed;
+        recording.elapsedTime = elapsedTime;
+        recording.maxSpeed = maxSpeed;
+        recording.totalDistance = distance;
+        return appDatabase.getRecordingDao().addRecording(recording);
     }
 
     private void startRecording()

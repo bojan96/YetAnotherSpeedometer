@@ -2,14 +2,16 @@ package org.unibl.etf.yetanotherspeedometer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 
 import android.os.Bundle;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityRecordingsBinding;
-import org.unibl.etf.yetanotherspeedometer.recordings.ListAdapter;
+import org.unibl.etf.yetanotherspeedometer.util.ListAdapter;
 
-import java.util.stream.Stream;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class RecordingsActivity extends AppCompatActivity {
 
     @Override
@@ -20,7 +22,8 @@ public class RecordingsActivity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         getLifecycle().addObserver(viewModel);
-        binding.recyclerView.setAdapter(new ListAdapter());
+        binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        viewModel.getRecordings().observe(this, recordings -> binding.recyclerView.setAdapter(new ListAdapter(recordings)));
         setContentView(binding.getRoot());
     }
 }

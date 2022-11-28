@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "recording")
 public class Recording {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
     public double avgSpeed;
     public double maxSpeed;
-    public long totalDistance;
+    public double totalDistance;
     public long elapsedTime;
 }

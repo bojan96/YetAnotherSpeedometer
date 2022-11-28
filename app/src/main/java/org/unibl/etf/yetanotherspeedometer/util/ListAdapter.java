@@ -1,21 +1,24 @@
-package org.unibl.etf.yetanotherspeedometer.recordings;
+package org.unibl.etf.yetanotherspeedometer.util;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.unibl.etf.yetanotherspeedometer.R;
 import org.unibl.etf.yetanotherspeedometer.databinding.RecordingItemBinding;
+import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
+
+import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    public ListAdapter()
-    {
+    private final List<Recording> recordings;
 
+    public ListAdapter(List<Recording> recordings)
+    {
+        this.recordings = recordings;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder
@@ -27,41 +30,49 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             this.recordingItemBinding = recordingItemBinding;
         }
 
-        public void setAverageSpeed(double averageSpeed)
+        private void setAverageSpeed(double averageSpeed)
         {
             recordingItemBinding.recordingItemAverageSpeed.setText(String.format("%.2f km/h", averageSpeed));
         }
 
-        public void setMaxSpeed(double maxSpeed)
+        private void setMaxSpeed(double maxSpeed)
         {
             recordingItemBinding.recordingItemMaxSpeed.setText(String.format("%.2f km/h", maxSpeed));
         }
 
-        public void setTotalDistance(long distance)
+        private void setTotalDistance(double distance)
         {
-            recordingItemBinding.recordingItemDistance.setText(String.format("%d m", distance));
+            recordingItemBinding.recordingItemDistance.setText(String.format("%f m", distance));
         }
 
-        public void setElapsedTime(long elapsedTime)
+        private void setElapsedTime(long elapsedTime)
         {
             recordingItemBinding.recordingItemElapsedTime.setText(String.format("%d s", elapsedTime));
+        }
+
+        public void setRecording(Recording recording)
+        {
+            setMaxSpeed(recording.maxSpeed);
+            setAverageSpeed(recording.avgSpeed);
+            setElapsedTime(recording.elapsedTime);
+            setTotalDistance(recording.totalDistance);
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        var binding = RecordingItemBinding.inflate(LayoutInflater.from(parent.getContext()));
+        var binding = RecordingItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.setRecording(recordings.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return recordings.size();
     }
 }

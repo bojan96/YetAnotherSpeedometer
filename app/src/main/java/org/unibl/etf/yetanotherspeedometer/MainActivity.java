@@ -4,6 +4,7 @@ import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -15,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityMainBinding;
 import org.unibl.etf.yetanotherspeedometer.location.LocationService;
@@ -45,13 +47,25 @@ public class MainActivity extends AppCompatActivity {
         checkPermissions();
         createNotificationChannels();
 
-        startForegroundService(new Intent(this, LocationService.class));
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_recordings:
+                startActivity(new Intent(this, RecordingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void createNotificationChannels()
@@ -75,8 +89,10 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: Display error message to user and exit
                 finishAndRemoveTask();
             }
-            else
+            else {
                 Log.d(TAG, "Location permissions granted");
+                startForegroundService(new Intent(this, LocationService.class));
+            }
         });
 
         if(checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
@@ -88,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             permissionLauncher.launch(new String[] { ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION });
+        }
+        else
+        {
+            startForegroundService(new Intent(this, LocationService.class));
         }
     }
 }
