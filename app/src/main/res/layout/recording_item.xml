@@ -75,4 +75,12 @@
         app:layout_constraintStart_toStartOf="@id/recording_item_elapsed_time"
         app:layout_constraintEnd_toEndOf="@id/recording_item_elapsed_time"
         android:text="Elapsed time"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_delete"
+        android:background="@android:color/transparent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
