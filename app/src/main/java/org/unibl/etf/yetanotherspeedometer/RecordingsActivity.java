@@ -35,10 +35,11 @@ public class RecordingsActivity extends AppCompatActivity {
         adapter = new ListAdapter(appDatabase.getRecordingDao());
         viewModel.getRecordings().observe(this, recordings ->
         {
+            if(binding.recyclerView.getAdapter() != null)
+                return;
             Log.d(RecordingsActivity.class.getName(), "Observing recordings");
             adapter.setRecordings(recordings);
-            if(binding.recyclerView.getAdapter() == null)
-                binding.recyclerView.setAdapter(adapter);
+            binding.recyclerView.setAdapter(adapter);
         });
         setContentView(binding.getRoot());
     }

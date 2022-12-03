@@ -77,6 +77,7 @@ public abstract class SingletonModule {
 
 
     @Provides
+    @Singleton
     public static AppDatabase getAppDatabase(Application app)
     {
         return Room.databaseBuilder(app, AppDatabase.class, "appDatabase").build();
