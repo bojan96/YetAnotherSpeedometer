@@ -32,9 +32,13 @@ public class RecordingsActivity extends AppCompatActivity {
         binding.setViewModel(viewModel);
         getLifecycle().addObserver(viewModel);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        adapter = new ListAdapter(appDatabase.getRecordingDao());
         viewModel.getRecordings().observe(this, recordings ->
         {
-            binding.recyclerView.setAdapter(new ListAdapter(recordings, appDatabase.getRecordingDao()));
+            Log.d(RecordingsActivity.class.getName(), "Observing recordings");
+            adapter.setRecordings(recordings);
+            if(binding.recyclerView.getAdapter() == null)
+                binding.recyclerView.setAdapter(adapter);
         });
         setContentView(binding.getRoot());
     }

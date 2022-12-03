@@ -20,12 +20,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    private final List<Recording> recordings;
+    private List<Recording> recordings;
     private final RecordingDao recordingDao;
 
-    public ListAdapter(List<Recording> recordings, RecordingDao recordingDao)
+    public ListAdapter(RecordingDao recordingDao)
     {
-        this.recordings = recordings;
         this.recordingDao = recordingDao;
     }
 
@@ -99,5 +98,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return recordings.size();
+    }
+
+    public void setRecordings(List<Recording> recordings)
+    {
+        this.recordings = recordings;
+        notifyDataSetChanged();
     }
 }
