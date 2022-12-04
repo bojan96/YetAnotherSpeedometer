@@ -17,6 +17,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import kotlin.Unit;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
@@ -41,22 +42,22 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         private void setAverageSpeed(double averageSpeed)
         {
-            recordingItemBinding.recordingItemAverageSpeed.setText(String.format("%.2f km/h", averageSpeed));
+            recordingItemBinding.recordingItemAverageSpeed.setText(UnitFormatters.formatSpeedKmPerHour(averageSpeed));
         }
 
         private void setMaxSpeed(double maxSpeed)
         {
-            recordingItemBinding.recordingItemMaxSpeed.setText(String.format("%.2f km/h", maxSpeed));
+            recordingItemBinding.recordingItemMaxSpeed.setText(UnitFormatters.formatSpeedKmPerHour(maxSpeed));
         }
 
         private void setTotalDistance(double distance)
         {
-            recordingItemBinding.recordingItemDistance.setText(String.format("%f m", distance));
+            recordingItemBinding.recordingItemDistance.setText(UnitFormatters.formatDistanceMeters(distance));
         }
 
         private void setElapsedTime(long elapsedTime)
         {
-            recordingItemBinding.recordingItemElapsedTime.setText(String.format("%d s", elapsedTime));
+            recordingItemBinding.recordingItemElapsedTime.setText(UnitFormatters.formatElapsedTime(elapsedTime));
         }
 
         public void setRecording(Recording recording)

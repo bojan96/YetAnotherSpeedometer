@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import org.unibl.etf.yetanotherspeedometer.R;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
+import org.unibl.etf.yetanotherspeedometer.util.UnitFormatters;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -60,7 +61,7 @@ public class SpeedDetailsNotifier {
         return new Notification.Builder(application, application.getString(R.string.location_notification_channel_id))
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(application.getString(R.string.location_notification_title))
-                .setContentText(String.format("%.2f km/h", currentSpeed * 3.6))
+                .setContentText(UnitFormatters.formatSpeedKmPerHour(currentSpeed))
                 .build();
     }
 
@@ -69,7 +70,10 @@ public class SpeedDetailsNotifier {
         return new Notification.Builder(application, application.getString(R.string.location_notification_channel_id))
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(application.getString(R.string.location_notification_title))
-                .setContentText(String.format("%.2f km/h, %.2f km, %d s", currentSpeed * 3.6, totalDistance, elapsedTime))
+                .setContentText(String.format("%s, %s, %s",
+                        UnitFormatters.formatSpeedKmPerHour(currentSpeed),
+                        UnitFormatters.formatDistanceMeters(totalDistance),
+                        UnitFormatters.formatElapsedTime(elapsedTime)))
                 .build();
     }
 

@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textSize="100sp"
             android:fontFamily="monospace"
-            android:text='@{String.format("%03d", viewModel.currentSpeed != null ? (int)viewModel.currentSpeed : 0)}'
+            android:text='@{viewModel.currentSpeed}'
             tools:text="000"/>
         <TextView
             android:id="@+id/current_speed_unit"
@@ -55,7 +55,7 @@
             app:layout_constraintRight_toLeftOf="@id/total_distance"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text='@{String.format("%d km/h", (int)viewModel.currentAverageSpeed)}'
+            android:text='@{viewModel.currentAverageSpeed}'
             tools:text="0 km/h"/>
         <TextView
             android:id="@+id/total_distance"
@@ -67,7 +67,7 @@
             app:layout_constraintLeft_toRightOf="@id/average_speed"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text='@{String.format("%dm", (int)viewModel.currentTotalDistance)}'
+            android:text='@{viewModel.currentTotalDistance}'
             tools:text="0 m"/>
 
         <TextView
@@ -102,7 +102,7 @@
             app:layout_constraintEnd_toEndOf="@id/average_speed"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text='@{String.format("%d km/h", (int)viewModel.currentMaxSpeed)}'
+            android:text='@{viewModel.currentMaxSpeed}'
             tools:text="0 km/h"/>
 
         <TextView
@@ -115,7 +115,7 @@
             app:layout_constraintEnd_toEndOf="@id/total_distance_label"
             android:textSize="@dimen/additional_details_text_size"
             android:isVisible="@{viewModel.isRecording}"
-            android:text='@{String.format("%ds", viewModel.recordingDuration)}'
+            android:text='@{viewModel.recordingDuration}'
             tools:text="0 s"/>
 
         <TextView

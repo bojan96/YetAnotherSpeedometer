@@ -13,6 +13,8 @@ import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
 import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
+import org.unibl.etf.yetanotherspeedometer.util.UnitFormatters;
+import org.unibl.etf.yetanotherspeedometer.util.UnitFormattersTransformations;
 
 import javax.inject.Inject;
 
@@ -27,7 +29,7 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
     private static final String TAG = MainActivityViewModel.class.getName();
     private static int updateCountVal = 0;
 
-    private final MutableLiveData<Double> currentSpeed = new MutableLiveData<>(null);
+    private final MutableLiveData<String> currentSpeed = new MutableLiveData<>();
     private final MutableLiveData<String> updateCount = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isRecording = new MutableLiveData<>(false);
     private final LocationRepository locationRepository;
@@ -36,7 +38,7 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
     {
         updateCountVal = (updateCountVal + 1) % 10;
         updateCount.postValue(String.format("%d %.2f", updateCountVal, value));
-        currentSpeed.postValue(value * 3.6);
+        currentSpeed.postValue(UnitFormatters.formatCurrentSpeedKmPerHour(value));
     };
     private final AppDatabase appDatabase;
 
@@ -48,7 +50,7 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
         this.appDatabase = appDatabase;
     }
 
-    public MutableLiveData<Double> getCurrentSpeed() {
+    public LiveData<String> getCurrentSpeed() {
         return currentSpeed;
     }
 
@@ -65,23 +67,24 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
         return isRecording;
     }
 
-    public LiveData<Long> getRecordingDuration() {
-        return speedDetailsUseCase.getCurrentTotalTime();
+    public LiveData<String> getRecordingDuration()
+    {
+        return UnitFormattersTransformations.formatElapsedTime(speedDetailsUseCase.getCurrentTotalTime());
     }
 
-    public LiveData<Double> getCurrentAverageSpeed()
+    public LiveData<String> getCurrentAverageSpeed()
     {
-        return Transformations.map(speedDetailsUseCase.getCurrentAverageSpeed(), speed -> speed * 3.6);
+        return UnitFormattersTransformations.formatSpeedToKmPerHour(speedDetailsUseCase.getCurrentAverageSpeed());
     }
 
-    public LiveData<Double> getCurrentMaxSpeed()
+    public LiveData<String> getCurrentMaxSpeed()
     {
-        return Transformations.map(speedDetailsUseCase.getCurrentMaxSpeed(), speed -> speed * 3.6);
+        return UnitFormattersTransformations.formatSpeedToKmPerHour(speedDetailsUseCase.getCurrentMaxSpeed());
     }
 
-    public LiveData<Double> getCurrentTotalDistance()
+    public LiveData<String> getCurrentTotalDistance()
     {
-        return speedDetailsUseCase.getCurrentTotalDistance();
+        return UnitFormattersTransformations.formatDistanceMeters(speedDetailsUseCase.getCurrentTotalDistance());
     }
 
     public void toggleRecording()
@@ -123,12 +126,7 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
-        locationRepository.getCurrentSpeed().observeForever(obs);
+        locationRepository.getCurrentSpeed().observe(owner, obs);
 
-    }
-
-    @Override
-    public void onDestroy(@NonNull LifecycleOwner owner) {
-        locationRepository.getCurrentSpeed().removeObserver(obs);
     }
 }
