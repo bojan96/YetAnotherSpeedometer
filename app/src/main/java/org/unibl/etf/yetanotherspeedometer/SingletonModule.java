@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.location.LocationManager;
 
+import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
 import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
@@ -11,6 +12,7 @@ import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.location.LocationRepositoryImpl;
 import org.unibl.etf.yetanotherspeedometer.notification.SpeedDetailsNotifier;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
+import org.unibl.etf.yetanotherspeedometer.settings.SettingsStore;
 import org.unibl.etf.yetanotherspeedometer.util.ElapsedTimeTimer;
 
 import java.util.Timer;
@@ -81,5 +83,12 @@ public abstract class SingletonModule {
     public static AppDatabase getAppDatabase(Application app)
     {
         return Room.databaseBuilder(app, AppDatabase.class, "appDatabase").build();
+    }
+
+    @Provides
+    @Singleton
+    public static SettingsStore getSettingsStore(Application app)
+    {
+        return new SettingsStore(PreferenceManager.getDefaultSharedPreferences(app), app);
     }
 }
