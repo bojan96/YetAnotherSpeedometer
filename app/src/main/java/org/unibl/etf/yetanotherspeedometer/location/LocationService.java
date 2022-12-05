@@ -57,6 +57,7 @@ public class LocationService extends Service {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(getString(R.string.location_notification_title))
                 .setContentText(getString(R.string.location_notification_text))
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .build());
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, locationListener);
         speedDetailsNotifier.startNotifying();

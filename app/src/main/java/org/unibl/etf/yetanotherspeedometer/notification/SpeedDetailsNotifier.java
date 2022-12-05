@@ -62,6 +62,7 @@ public class SpeedDetailsNotifier {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(application.getString(R.string.location_notification_title))
                 .setContentText(UnitFormatters.formatSpeedKmPerHour(currentSpeed))
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .build();
     }
 
@@ -74,6 +75,7 @@ public class SpeedDetailsNotifier {
                         UnitFormatters.formatSpeedKmPerHour(currentSpeed),
                         UnitFormatters.formatDistanceMeters(totalDistance),
                         UnitFormatters.formatElapsedTime(elapsedTime)))
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .build();
     }
 
