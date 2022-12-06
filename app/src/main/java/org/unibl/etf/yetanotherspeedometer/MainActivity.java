@@ -20,6 +20,7 @@ import android.view.MenuItem;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityMainBinding;
 import org.unibl.etf.yetanotherspeedometer.location.LocationService;
+import org.unibl.etf.yetanotherspeedometer.settings.SettingsActivity;
 
 import javax.inject.Inject;
 
@@ -62,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_recordings:
                 startActivity(new Intent(this, RecordingsActivity.class));
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

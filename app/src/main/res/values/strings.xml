@@ -6,4 +6,5 @@
     <string name="location_notification_text">Location service is running</string>
     <string name="action_recordings">Recordings</string>
     <string name="settings_key_use_imperial_units">use_imperial_units</string>
+    <string name="action_settings">Settings</string>
 </resources>
