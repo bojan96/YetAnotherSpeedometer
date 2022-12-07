@@ -47,7 +47,7 @@ public class SpeedDetailsNotifier {
                         createRecordingNotification(currentSpeed, totalDistance, elapsedTime) :
                         createNotification(currentSpeed);
 
-                notificationManager.notify(R.integer.speed_details_notification_id, notification);
+                notificationManager.notify(application.getResources().getInteger(R.integer.speed_details_notification_id), notification);
             }
         };
         timer.schedule(timerTask, 1000, 1000);
