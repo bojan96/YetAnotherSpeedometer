@@ -14,6 +14,8 @@ import org.unibl.etf.yetanotherspeedometer.notification.SpeedDetailsNotifier;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 import org.unibl.etf.yetanotherspeedometer.settings.SettingsStore;
 import org.unibl.etf.yetanotherspeedometer.util.ElapsedTimeTimer;
+import org.unibl.etf.yetanotherspeedometer.util.UnitFormatters;
+import org.unibl.etf.yetanotherspeedometer.util.UnitFormattersTransformations;
 
 import java.util.Timer;
 
@@ -72,9 +74,10 @@ public abstract class SingletonModule {
                                                                SpeedDetailsUseCase speedDetailsUseCase,
                                                                NotificationManager notificationManager,
                                                                Application app,
-                                                               Timer timer)
+                                                               Timer timer,
+                                                               UnitFormatters unitFormatters)
     {
-        return new SpeedDetailsNotifier(locationRepository, speedDetailsUseCase, app, timer, notificationManager);
+        return new SpeedDetailsNotifier(locationRepository, speedDetailsUseCase, app, timer, notificationManager, unitFormatters);
     }
 
 
@@ -90,5 +93,17 @@ public abstract class SingletonModule {
     public static SettingsStore getSettingsStore(Application app)
     {
         return new SettingsStore(PreferenceManager.getDefaultSharedPreferences(app), app);
+    }
+
+    @Provides
+    public static UnitFormattersTransformations getUnitTransformations(SettingsStore store)
+    {
+        return new UnitFormattersTransformations(store);
+    }
+
+    @Provides
+    public static UnitFormatters getUnitFormatters(SettingsStore store)
+    {
+        return new UnitFormatters(store);
     }
 }

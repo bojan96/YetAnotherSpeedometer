@@ -13,6 +13,7 @@ import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
 import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
+import org.unibl.etf.yetanotherspeedometer.settings.SettingsStore;
 import org.unibl.etf.yetanotherspeedometer.util.UnitFormatters;
 import org.unibl.etf.yetanotherspeedometer.util.UnitFormattersTransformations;
 
@@ -29,7 +30,6 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
     private static final String TAG = MainActivityViewModel.class.getName();
     private static int updateCountVal = 0;
 
-    private final MutableLiveData<String> currentSpeed = new MutableLiveData<>();
     private final MutableLiveData<String> updateCount = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isRecording = new MutableLiveData<>(false);
     private final LocationRepository locationRepository;
@@ -38,20 +38,27 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
     {
         updateCountVal = (updateCountVal + 1) % 10;
         updateCount.postValue(String.format("%d %.2f", updateCountVal, value));
-        currentSpeed.postValue(UnitFormatters.formatCurrentSpeedKmPerHour(value));
     };
     private final AppDatabase appDatabase;
+    private final SettingsStore settingsStore;
+    private final UnitFormattersTransformations unitFormatters;
 
     @Inject
-    public MainActivityViewModel(LocationRepository locationRepository, SpeedDetailsUseCase speedDetailsUseCase, AppDatabase appDatabase)
+    public MainActivityViewModel(LocationRepository locationRepository,
+                                 SpeedDetailsUseCase speedDetailsUseCase,
+                                 AppDatabase appDatabase,
+                                 SettingsStore settingsStore,
+                                 UnitFormattersTransformations unitFormatters)
     {
         this.locationRepository = locationRepository;
         this.speedDetailsUseCase = speedDetailsUseCase;
         this.appDatabase = appDatabase;
+        this.settingsStore = settingsStore;
+        this.unitFormatters = unitFormatters;
     }
 
     public LiveData<String> getCurrentSpeed() {
-        return currentSpeed;
+        return Transformations.map(locationRepository.getCurrentSpeed(), speed -> UnitFormatters.formatCurrentSpeed(speed));
     }
 
     public MutableLiveData<String> getUpdateCount() {
@@ -69,22 +76,27 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
 
     public LiveData<String> getRecordingDuration()
     {
-        return UnitFormattersTransformations.formatElapsedTime(speedDetailsUseCase.getCurrentTotalTime());
+        return unitFormatters.formatElapsedTime(speedDetailsUseCase.getCurrentTotalTime());
     }
 
     public LiveData<String> getCurrentAverageSpeed()
     {
-        return UnitFormattersTransformations.formatSpeedToKmPerHour(speedDetailsUseCase.getCurrentAverageSpeed());
+        return unitFormatters.formatSpeed(speedDetailsUseCase.getCurrentAverageSpeed());
     }
 
     public LiveData<String> getCurrentMaxSpeed()
     {
-        return UnitFormattersTransformations.formatSpeedToKmPerHour(speedDetailsUseCase.getCurrentMaxSpeed());
+        return unitFormatters.formatSpeed(speedDetailsUseCase.getCurrentMaxSpeed());
     }
 
     public LiveData<String> getCurrentTotalDistance()
     {
-        return UnitFormattersTransformations.formatDistanceMeters(speedDetailsUseCase.getCurrentTotalDistance());
+        return unitFormatters.formatDistance(speedDetailsUseCase.getCurrentTotalDistance());
+    }
+
+    public LiveData<String> useImperialUnits()
+    {
+        return Transformations.map(settingsStore.getUseImperialUnits(), useImperialUnits -> useImperialUnits ? "mph" : "km/h");
     }
 
     public void toggleRecording()

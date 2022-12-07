@@ -19,15 +19,17 @@ public class SpeedDetailsNotifier {
     private final SpeedDetailsUseCase speedDetailsUseCase;
     private final Application application;
     private final NotificationManager notificationManager;
+    private final UnitFormatters unitFormatters;
     private TimerTask timerTask;
 
-    public SpeedDetailsNotifier(LocationRepository locationRepository, SpeedDetailsUseCase speedDetailsUseCase, Application app, Timer timer, NotificationManager notificationManager)
+    public SpeedDetailsNotifier(LocationRepository locationRepository, SpeedDetailsUseCase speedDetailsUseCase, Application app, Timer timer, NotificationManager notificationManager, UnitFormatters unitFormatters)
     {
         this.timer = timer;
         this.locationtRepository = locationRepository;
         this.speedDetailsUseCase = speedDetailsUseCase;
         this.application = app;
         this.notificationManager = notificationManager;
+        this.unitFormatters = unitFormatters;
     }
 
     public void startNotifying()
@@ -61,7 +63,7 @@ public class SpeedDetailsNotifier {
         return new Notification.Builder(application, application.getString(R.string.location_notification_channel_id))
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(application.getString(R.string.location_notification_title))
-                .setContentText(UnitFormatters.formatSpeedKmPerHour(currentSpeed))
+                .setContentText(unitFormatters.formatSpeed(currentSpeed))
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .build();
     }
@@ -72,8 +74,8 @@ public class SpeedDetailsNotifier {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(application.getString(R.string.location_notification_title))
                 .setContentText(String.format("%s, %s, %s",
-                        UnitFormatters.formatSpeedKmPerHour(currentSpeed),
-                        UnitFormatters.formatDistanceMeters(totalDistance),
+                        unitFormatters.formatSpeed(currentSpeed),
+                        unitFormatters.formatDistance(totalDistance),
                         UnitFormatters.formatElapsedTime(elapsedTime)))
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .build();

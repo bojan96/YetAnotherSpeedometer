@@ -21,12 +21,14 @@ import kotlin.Unit;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
+    private final UnitFormatters unitFormatters;
     private List<Recording> recordings;
     private final RecordingDao recordingDao;
 
-    public ListAdapter(RecordingDao recordingDao)
+    public ListAdapter(RecordingDao recordingDao, UnitFormatters unitFormatters)
     {
         this.recordingDao = recordingDao;
+        this.unitFormatters = unitFormatters;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -42,17 +44,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         private void setAverageSpeed(double averageSpeed)
         {
-            recordingItemBinding.recordingItemAverageSpeed.setText(UnitFormatters.formatSpeedKmPerHour(averageSpeed));
+            recordingItemBinding.recordingItemAverageSpeed.setText(unitFormatters.formatSpeed(averageSpeed));
         }
 
         private void setMaxSpeed(double maxSpeed)
         {
-            recordingItemBinding.recordingItemMaxSpeed.setText(UnitFormatters.formatSpeedKmPerHour(maxSpeed));
+            recordingItemBinding.recordingItemMaxSpeed.setText(unitFormatters.formatSpeed(maxSpeed));
         }
 
         private void setTotalDistance(double distance)
         {
-            recordingItemBinding.recordingItemDistance.setText(UnitFormatters.formatDistanceMeters(distance));
+            recordingItemBinding.recordingItemDistance.setText(unitFormatters.formatDistance(distance));
         }
 
         private void setElapsedTime(long elapsedTime)

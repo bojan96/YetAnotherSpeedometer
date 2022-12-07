@@ -10,7 +10,9 @@ import android.util.Log;
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityRecordingsBinding;
 import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
 import org.unibl.etf.yetanotherspeedometer.db.dao.RecordingDao;
+import org.unibl.etf.yetanotherspeedometer.settings.SettingsStore;
 import org.unibl.etf.yetanotherspeedometer.util.ListAdapter;
+import org.unibl.etf.yetanotherspeedometer.util.UnitFormatters;
 
 import javax.inject.Inject;
 
@@ -21,6 +23,8 @@ public class RecordingsActivity extends AppCompatActivity {
 
     @Inject
     public AppDatabase appDatabase;
+    @Inject
+    public UnitFormatters unitFormatters;
     private ListAdapter adapter;
 
     @Override
@@ -32,7 +36,7 @@ public class RecordingsActivity extends AppCompatActivity {
         binding.setViewModel(viewModel);
         getLifecycle().addObserver(viewModel);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        adapter = new ListAdapter(appDatabase.getRecordingDao());
+        adapter = new ListAdapter(appDatabase.getRecordingDao(), unitFormatters);
         viewModel.getRecordings().observe(this, recordings ->
         {
             if(binding.recyclerView.getAdapter() != null)

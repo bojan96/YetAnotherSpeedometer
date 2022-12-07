@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toEndOf="@id/current_speed"
             app:layout_constraintTop_toBottomOf="@id/current_speed"
             android:textSize="25sp"
-            android:text="km/h"/>
+            android:text="@{viewModel.useImperialUnits()}"/>
 
         <TextView
             android:id="@+id/average_speed"
