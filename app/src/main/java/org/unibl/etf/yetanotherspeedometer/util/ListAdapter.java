@@ -9,8 +9,11 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.RecordingItemBinding;
+import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
 import org.unibl.etf.yetanotherspeedometer.db.dao.RecordingDao;
+import org.unibl.etf.yetanotherspeedometer.db.dao.RecordingPointDao;
 import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
+import org.unibl.etf.yetanotherspeedometer.db.entity.RecordingPoint;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,10 +27,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private final UnitFormatters unitFormatters;
     private List<Recording> recordings;
     private final RecordingDao recordingDao;
+    private final RecordingPointDao recordingPointDao;
 
-    public ListAdapter(RecordingDao recordingDao, UnitFormatters unitFormatters)
+    public ListAdapter(AppDatabase appDatabase, UnitFormatters unitFormatters)
     {
-        this.recordingDao = recordingDao;
+        this.recordingDao = appDatabase.getRecordingDao();
+        this.recordingPointDao = appDatabase.getRecordingPointsDao();
         this.unitFormatters = unitFormatters;
     }
 
@@ -73,15 +78,21 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         public void deleteRecording()
         {
-            recordingDao
-                    .deleteRecording(recording)
+            recordingPointDao.deleteRecordingPoints(recording.id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(() ->
                     {
-                        var position =  recordings.indexOf(recording);
-                        recordings.remove(position);
-                        notifyItemRemoved(position);
+                        recordingDao
+                                .deleteRecording(recording)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(() ->
+                                {
+                                    var position =  recordings.indexOf(recording);
+                                    recordings.remove(position);
+                                    notifyItemRemoved(position);
+                                });
                     });
         }
     }

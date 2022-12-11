@@ -36,7 +36,7 @@ public class RecordingsActivity extends AppCompatActivity {
         binding.setViewModel(viewModel);
         getLifecycle().addObserver(viewModel);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        adapter = new ListAdapter(appDatabase.getRecordingDao(), unitFormatters);
+        adapter = new ListAdapter(appDatabase, unitFormatters);
         viewModel.getRecordings().observe(this, recordings ->
         {
             if(binding.recyclerView.getAdapter() != null)

@@ -21,7 +21,7 @@ public interface RecordingDao {
     LiveData<List<Recording>> getAll();
 
     @Insert
-    Completable addRecording(Recording recording);
+    Single<Long> addRecording(Recording recording);
 
     @Delete
     Completable deleteRecording(Recording recording);

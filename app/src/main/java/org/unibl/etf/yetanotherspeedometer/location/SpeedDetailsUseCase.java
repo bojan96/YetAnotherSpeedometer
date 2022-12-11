@@ -10,9 +10,37 @@ import androidx.lifecycle.Observer;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 import org.unibl.etf.yetanotherspeedometer.util.ElapsedTimeTimer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class SpeedDetailsUseCase {
+
+    public static class PointInfo
+    {
+        private double latitude;
+        private double longitude;
+        private boolean isMaxSpeedPoint;
+
+        public PointInfo(Location location, boolean isMaxSpeedPoint) {
+            this.latitude = location.getLatitude();
+            this.longitude = location.getLongitude();
+            this.isMaxSpeedPoint = isMaxSpeedPoint;
+        }
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public boolean isMaxSpeedPoint() {
+            return isMaxSpeedPoint;
+        }
+    }
 
     private static final String TAG = SpeedDetailsUseCase.class.getSimpleName();
     private final LocationRepository locationRepository;
@@ -25,6 +53,7 @@ public class SpeedDetailsUseCase {
     private long totalTime = 0;
     private double totalDistance = 0;
     private boolean isRecording = false;
+    private List<PointInfo> points = new ArrayList<>();
 
     private final Observer<Location> locationObserver = location ->
     {
@@ -32,6 +61,7 @@ public class SpeedDetailsUseCase {
         if(lastLocation == null) {
             lastLocation = location;
             lastTimestamp = System.nanoTime();
+            points.add(new PointInfo(location, false));
             return;
         }
 
@@ -51,10 +81,15 @@ public class SpeedDetailsUseCase {
         Log.d(TAG, String.format("Total distance = %f, total time = %f, average speed = %f",
                 totalDistance, totalTime / 1e9, averageSpeed));
 
+        boolean isMaxSpeedPoint = false;
         if(location.getSpeed() > currentMaxSpeed.getValue())
+        {
             currentMaxSpeed.postValue((double) location.getSpeed());
+            isMaxSpeedPoint = true;
+        }
         currentAverageSpeed.postValue(averageSpeed);
         currentTotalDistance.postValue(totalDistance);
+        points.add(new PointInfo(location, isMaxSpeedPoint));
     };
 
     @Inject
@@ -81,6 +116,11 @@ public class SpeedDetailsUseCase {
         return currentMaxSpeed;
     }
 
+    public List<PointInfo> getPoints()
+    {
+        return points;
+    }
+
     public void startCalcuating()
     {
         resetState();
@@ -96,7 +136,6 @@ public class SpeedDetailsUseCase {
         isRecording = false;
     }
 
-
     private void resetState()
     {
         currentMaxSpeed.setValue(0.0);
@@ -106,6 +145,7 @@ public class SpeedDetailsUseCase {
         totalTime = 0;
         lastLocation = null;
         lastTimestamp = 0;
+        points = new ArrayList<>();
     }
 
     public boolean isRecording() {

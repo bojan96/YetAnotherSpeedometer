@@ -11,17 +11,21 @@ import androidx.lifecycle.ViewModel;
 
 import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
 import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
+import org.unibl.etf.yetanotherspeedometer.db.entity.RecordingPoint;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 import org.unibl.etf.yetanotherspeedometer.settings.SettingsStore;
 import org.unibl.etf.yetanotherspeedometer.util.UnitFormatters;
 import org.unibl.etf.yetanotherspeedometer.util.UnitFormattersTransformations;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
@@ -110,13 +114,10 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
     private void stopRecording()
     {
         speedDetailsUseCase.stopCalculating();
-        writeRecordingToDb()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> isRecording.setValue(false));
+        writeRecordingToDb();
     }
 
-    private Completable writeRecordingToDb()
+    private void writeRecordingToDb()
     {
         var avgSpeed = speedDetailsUseCase.getCurrentAverageSpeed().getValue();
         var maxSpeed = speedDetailsUseCase.getCurrentMaxSpeed().getValue();
@@ -127,7 +128,30 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
         recording.elapsedTime = elapsedTime;
         recording.maxSpeed = maxSpeed;
         recording.totalDistance = distance;
-        return appDatabase.getRecordingDao().addRecording(recording);
+        appDatabase.getRecordingDao().addRecording(recording)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(id ->
+            {
+                var recordingPoints = new ArrayList<RecordingPoint>();
+                var points = speedDetailsUseCase.getPoints();
+                for(int i = 0; i < points.size(); ++i)
+                {
+                    var recordingPoint = new RecordingPoint();
+                    recordingPoint.recordingId = id.intValue();
+                    recordingPoint.latitude = points.get(i).getLatitude();
+                    recordingPoint.longitude = points.get(i).getLongitude();
+                    recordingPoint.orderIndex = i;
+                    recordingPoint.maxSpeedPoint = points.get(i).isMaxSpeedPoint();
+                    recordingPoints.add(recordingPoint);
+                }
+
+                appDatabase.getRecordingPointsDao()
+                        .addRecordingPoints(recordingPoints)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(() -> isRecording.setValue(false));
+            });
     }
 
     private void startRecording()
