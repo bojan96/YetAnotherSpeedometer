@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -45,6 +46,7 @@ dependencies {
     implementation 'androidx.room:room-common:2.4.3'
     implementation 'androidx.room:room-rxjava3:2.4.3'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     annotationProcessor 'androidx.room:room-compiler:2.4.3'
     annotationProcessor 'com.google.dagger:hilt-compiler:2.44'
     testImplementation 'junit:junit:4.13.2'
