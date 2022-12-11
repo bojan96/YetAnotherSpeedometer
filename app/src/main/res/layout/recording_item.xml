@@ -85,4 +85,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/ic_delete"
         android:background="?android:attr/selectableItemBackground"/>
+
+    <ImageButton
+        android:id="@+id/recording_item_route_map_button"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="@id/recording_item_delete_button"
+        app:layout_constraintBottom_toTopOf="@id/recording_item_delete_button"
+        android:src="@drawable/ic_map"
+        android:background="?android:attr/selectableItemBackground"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class RecordingPoint {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public int recordingPointId;
     public int recordingId;
     public double latitude;
     public double longitude;

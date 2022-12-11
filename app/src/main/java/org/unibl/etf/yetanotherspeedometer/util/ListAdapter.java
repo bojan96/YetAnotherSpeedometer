@@ -1,5 +1,6 @@
 package org.unibl.etf.yetanotherspeedometer.util;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import org.unibl.etf.yetanotherspeedometer.db.dao.RecordingDao;
 import org.unibl.etf.yetanotherspeedometer.db.dao.RecordingPointDao;
 import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
 import org.unibl.etf.yetanotherspeedometer.db.entity.RecordingPoint;
+import org.unibl.etf.yetanotherspeedometer.routemap.RouteMapActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +46,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         public ViewHolder(RecordingItemBinding recordingItemBinding) {
             super(recordingItemBinding.getRoot());
             this.recordingItemBinding = recordingItemBinding;
+
+            recordingItemBinding.recordingItemRouteMapButton.setOnClickListener(this::showRecordingRoute);
             recordingItemBinding.recordingItemDeleteButton.setOnClickListener(view -> deleteRecording());
         }
 
@@ -94,6 +98,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                                     notifyItemRemoved(position);
                                 });
                     });
+        }
+
+        public void showRecordingRoute(View view)
+        {
+            var intent = new Intent(view.getContext(), RouteMapActivity.class);
+            intent.putExtra(RouteMapActivity.EXTRA_RECORDING_ID, recording.id);
+            view.getContext().startActivity(intent);
         }
     }
 

@@ -1,5 +1,6 @@
 package org.unibl.etf.yetanotherspeedometer.db.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -18,4 +19,5 @@ public interface RecordingPointDao {
 
     @Query("DELETE FROM recordingPoint WHERE recordingId = :recordingId")
     Completable deleteRecordingPoints(int recordingId);
+
 }
