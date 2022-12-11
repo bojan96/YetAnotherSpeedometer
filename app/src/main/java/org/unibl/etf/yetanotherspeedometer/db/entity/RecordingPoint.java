@@ -3,8 +3,8 @@ package org.unibl.etf.yetanotherspeedometer.db.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "recordingPoints")
-public class RecordingPoints {
+@Entity(tableName = "recordingPoint")
+public class RecordingPoint {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
