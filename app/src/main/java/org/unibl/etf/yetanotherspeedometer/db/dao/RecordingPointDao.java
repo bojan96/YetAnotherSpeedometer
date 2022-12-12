@@ -17,7 +17,4 @@ public interface RecordingPointDao {
     @Insert
     Completable addRecordingPoints(List<RecordingPoint> recordingPoint);
 
-    @Query("DELETE FROM recordingPoint WHERE recordingId = :recordingId")
-    Completable deleteRecordingPoints(int recordingId);
-
 }
