@@ -121,7 +121,7 @@ public class SpeedDetailsUseCase {
         return points;
     }
 
-    public void startCalcuating()
+    public void startCalculating()
     {
         resetState();
         timer.restart();

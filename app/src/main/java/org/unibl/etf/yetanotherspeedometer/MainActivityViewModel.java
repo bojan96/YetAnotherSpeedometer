@@ -24,8 +24,6 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
@@ -156,7 +154,7 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
 
     private void startRecording()
     {
-        speedDetailsUseCase.startCalcuating();
+        speedDetailsUseCase.startCalculating();
         isRecording.setValue(true);
     }
 
