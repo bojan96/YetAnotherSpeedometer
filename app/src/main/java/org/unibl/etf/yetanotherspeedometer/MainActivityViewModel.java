@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 
 import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
 import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
+import org.unibl.etf.yetanotherspeedometer.db.entity.RecordingMaxSpeedPoint;
 import org.unibl.etf.yetanotherspeedometer.db.entity.RecordingPoint;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
@@ -147,7 +148,22 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
                         .addRecordingPoints(recordingPoints)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(() -> isRecording.setValue(false));
+                        .subscribe(() ->
+                        {
+                            if(speedDetailsUseCase.getMaxSpeedPointIndex() != -1) {
+                                var maxSpeedPoint = new RecordingMaxSpeedPoint();
+                                maxSpeedPoint.recordingId = id.intValue();
+                                maxSpeedPoint.maxSpeedPointIndex = speedDetailsUseCase.getMaxSpeedPointIndex();
+                                appDatabase
+                                        .getRecordingMaxSpeedPointDao()
+                                        .addRecordingMaxSpeedPoint(maxSpeedPoint)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(() -> isRecording.setValue(false));
+                            }
+                            else
+                                isRecording.setValue(false);
+                        });
             });
     }
 

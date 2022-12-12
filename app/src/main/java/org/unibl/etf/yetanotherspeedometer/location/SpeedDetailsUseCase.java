@@ -48,7 +48,7 @@ public class SpeedDetailsUseCase {
     private double totalDistance = 0;
     private boolean isRecording = false;
     private List<PointInfo> points = new ArrayList<>();
-    private int maxSpeedPointIndex;
+    private int maxSpeedPointIndex = -1;
 
     private final Observer<Location> locationObserver = location ->
     {
@@ -56,6 +56,8 @@ public class SpeedDetailsUseCase {
         if(lastLocation == null) {
             lastLocation = location;
             lastTimestamp = System.nanoTime();
+            currentMaxSpeed.postValue((double)location.getSpeed());
+            maxSpeedPointIndex = 0;
             points.add(new PointInfo(location));
             return;
         }
@@ -149,4 +151,9 @@ public class SpeedDetailsUseCase {
     public void setRecording(boolean recording) {
         isRecording = recording;
     }
+
+    public int getMaxSpeedPointIndex() {
+        return maxSpeedPointIndex;
+    }
+
 }
