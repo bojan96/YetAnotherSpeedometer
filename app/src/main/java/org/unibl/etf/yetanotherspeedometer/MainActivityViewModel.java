@@ -140,7 +140,6 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
                     recordingPoint.latitude = points.get(i).getLatitude();
                     recordingPoint.longitude = points.get(i).getLongitude();
                     recordingPoint.orderIndex = i;
-                    recordingPoint.maxSpeedPoint = points.get(i).isMaxSpeedPoint();
                     recordingPoints.add(recordingPoint);
                 }
 

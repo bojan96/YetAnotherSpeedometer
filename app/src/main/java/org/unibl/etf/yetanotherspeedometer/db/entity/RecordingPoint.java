@@ -12,5 +12,4 @@ public class RecordingPoint {
     public double latitude;
     public double longitude;
     public int orderIndex;
-    public boolean maxSpeedPoint;
 }

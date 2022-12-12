@@ -21,12 +21,10 @@ public class SpeedDetailsUseCase {
     {
         private double latitude;
         private double longitude;
-        private boolean isMaxSpeedPoint;
 
-        public PointInfo(Location location, boolean isMaxSpeedPoint) {
+        public PointInfo(Location location) {
             this.latitude = location.getLatitude();
             this.longitude = location.getLongitude();
-            this.isMaxSpeedPoint = isMaxSpeedPoint;
         }
 
         public double getLatitude() {
@@ -35,10 +33,6 @@ public class SpeedDetailsUseCase {
 
         public double getLongitude() {
             return longitude;
-        }
-
-        public boolean isMaxSpeedPoint() {
-            return isMaxSpeedPoint;
         }
     }
 
@@ -54,6 +48,7 @@ public class SpeedDetailsUseCase {
     private double totalDistance = 0;
     private boolean isRecording = false;
     private List<PointInfo> points = new ArrayList<>();
+    private int maxSpeedPointIndex;
 
     private final Observer<Location> locationObserver = location ->
     {
@@ -61,7 +56,7 @@ public class SpeedDetailsUseCase {
         if(lastLocation == null) {
             lastLocation = location;
             lastTimestamp = System.nanoTime();
-            points.add(new PointInfo(location, false));
+            points.add(new PointInfo(location));
             return;
         }
 
@@ -81,15 +76,14 @@ public class SpeedDetailsUseCase {
         Log.d(TAG, String.format("Total distance = %f, total time = %f, average speed = %f",
                 totalDistance, totalTime / 1e9, averageSpeed));
 
-        boolean isMaxSpeedPoint = false;
         if(location.getSpeed() > currentMaxSpeed.getValue())
         {
             currentMaxSpeed.postValue((double) location.getSpeed());
-            isMaxSpeedPoint = true;
+            maxSpeedPointIndex = points.size();
         }
         currentAverageSpeed.postValue(averageSpeed);
         currentTotalDistance.postValue(totalDistance);
-        points.add(new PointInfo(location, isMaxSpeedPoint));
+        points.add(new PointInfo(location));
     };
 
     @Inject
