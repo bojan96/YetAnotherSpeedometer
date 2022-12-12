@@ -82,21 +82,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         public void deleteRecording()
         {
-            recordingPointDao.deleteRecordingPoints(recording.id)
+            recordingDao
+                    .deleteRecording(recording)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(() ->
                     {
-                        recordingDao
-                                .deleteRecording(recording)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(() ->
-                                {
-                                    var position =  recordings.indexOf(recording);
-                                    recordings.remove(position);
-                                    notifyItemRemoved(position);
-                                });
+                        var position =  recordings.indexOf(recording);
+                        recordings.remove(position);
+                        notifyItemRemoved(position);
                     });
         }
 
