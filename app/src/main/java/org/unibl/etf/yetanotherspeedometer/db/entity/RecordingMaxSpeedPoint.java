@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey;
             childColumns = "recordingId"))
 public class RecordingMaxSpeedPoint {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int recordingMaxSpeedPointId;
     public int recordingId;
     public int maxSpeedPointIndex;
