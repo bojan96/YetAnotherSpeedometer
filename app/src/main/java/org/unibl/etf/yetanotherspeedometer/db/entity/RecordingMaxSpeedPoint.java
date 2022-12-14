@@ -10,7 +10,8 @@ import androidx.room.PrimaryKey;
     foreignKeys = @ForeignKey(
             entity = Recording.class,
             parentColumns = "id",
-            childColumns = "recordingId"))
+            childColumns = "recordingId",
+            onDelete = ForeignKey.CASCADE))
 public class RecordingMaxSpeedPoint {
 
     @PrimaryKey(autoGenerate = true)
