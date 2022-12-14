@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     public LocationService locationService;
+    @Inject
+    public NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.location_notification_channel_name),
                 NotificationManager.IMPORTANCE_DEFAULT);
 
-        getSystemService(NotificationManager.class).createNotificationChannel(channel);
+        notificationManager.createNotificationChannel(channel);
     }
 
     private void checkPermissions()
