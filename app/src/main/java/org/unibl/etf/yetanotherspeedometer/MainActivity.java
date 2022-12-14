@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         var binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(binding.toolbar.getRoot());
         var viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermissions();
         createNotificationChannels();
-
-
     }
 
     @Override

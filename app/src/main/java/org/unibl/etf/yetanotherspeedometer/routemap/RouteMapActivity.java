@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.unibl.etf.yetanotherspeedometer.R;
+import org.unibl.etf.yetanotherspeedometer.databinding.ActivityRouteMapBinding;
 import org.unibl.etf.yetanotherspeedometer.db.AppDatabase;
 import org.unibl.etf.yetanotherspeedometer.db.entity.Recording;
 import org.unibl.etf.yetanotherspeedometer.db.entity.RecordingMaxSpeedPoint;
@@ -40,8 +41,9 @@ public class RouteMapActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_route_map);
-
+        var binding = ActivityRouteMapBinding.inflate(getLayoutInflater());
+        setSupportActionBar(binding.toolbar.getRoot());
+        setContentView(binding.getRoot());
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

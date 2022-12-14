@@ -31,6 +31,7 @@ public class RecordingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         var binding = ActivityRecordingsBinding.inflate(getLayoutInflater());
+        setSupportActionBar(binding.toolbar.getRoot());
         var viewModel = new ViewModelProvider(this).get(RecordingsViewModel.class);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);

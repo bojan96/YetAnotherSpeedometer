@@ -12,10 +12,12 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        var binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        setSupportActionBar(binding.toolbar.getRoot());
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.settings_fragment_container, new SettingsFragment())
                 .commit();
-        setContentView(ActivitySettingsBinding.inflate(getLayoutInflater()).getRoot());
+        setContentView(binding.getRoot());
     }
 }

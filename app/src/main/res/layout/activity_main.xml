@@ -12,14 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            app:titleTextColor="?attr/colorOnPrimary"
-            android:theme="@style/Theme.YetAnotherSpeedometer.ActionBar"/>
+        <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
 
         <TextView
             android:id="@+id/current_speed"

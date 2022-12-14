@@ -12,12 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".RecordingsActivity">
+
+        <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
         
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:id="@+id/recycler_view"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:scrollbars="vertical"
             android:isVisible="@{viewModel.hasRecordings}"/>
