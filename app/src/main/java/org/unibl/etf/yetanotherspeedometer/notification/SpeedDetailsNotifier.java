@@ -50,7 +50,7 @@ public class SpeedDetailsNotifier {
                 notificationManager.notify(application.getResources().getInteger(R.integer.speed_details_notification_id), notification);
             }
         };
-        timer.schedule(timerTask, 1000, 1000);
+        timer.scheduleAtFixedRate(timerTask, 1000, 1000);
     }
 
     public void stopNotifying()

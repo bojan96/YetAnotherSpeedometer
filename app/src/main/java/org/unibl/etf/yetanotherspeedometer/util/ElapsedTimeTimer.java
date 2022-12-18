@@ -1,5 +1,7 @@
 package org.unibl.etf.yetanotherspeedometer.util;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,6 +11,7 @@ import java.util.TimerTask;
 public class ElapsedTimeTimer {
     private Timer timer;
     private TimerTask timerTask;
+    private long currentTimeVal = 0;
     private final MutableLiveData<Long> currentTime = new MutableLiveData<>(0L);
 
     public ElapsedTimeTimer(Timer timer)
@@ -19,13 +22,16 @@ public class ElapsedTimeTimer {
     public void restart()
     {
         currentTime.setValue(0L);
+        currentTimeVal = 0;
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                currentTime.postValue(currentTime.getValue() + 1);
+                ++currentTimeVal;
+//                Log.d(ElapsedTimeTimer.class.getName(), String.format("Timer: %d\n", currentTimeVal));
+                currentTime.postValue(currentTimeVal);
             }
         };
-        timer.schedule(timerTask, 1000, 1000);
+        timer.scheduleAtFixedRate(timerTask, 1000, 1000);
     }
 
     public void stop()
