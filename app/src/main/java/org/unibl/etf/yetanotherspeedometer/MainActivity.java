@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import org.unibl.etf.yetanotherspeedometer.databinding.ActivityMainBinding;
 import org.unibl.etf.yetanotherspeedometer.location.LocationService;
@@ -46,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         binding.setViewModel(viewModel);
         getLifecycle().addObserver(viewModel);
         setContentView(binding.getRoot());
+        viewModel.keepScreenOn().observe(this, keepScreenOn ->
+        {
+            if(keepScreenOn)
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            else
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        });
 
         checkPermissions();
         createNotificationChannels();

@@ -4,4 +4,8 @@
     <SwitchPreferenceCompat
         app:key="@string/settings_key_use_imperial_units"
         app:title="Use imperial units" />
+
+    <SwitchPreferenceCompat
+        app:key="@string/settings_key_keep_screen_on"
+        app:title="Keep screen on"/>
 </PreferenceScreen>

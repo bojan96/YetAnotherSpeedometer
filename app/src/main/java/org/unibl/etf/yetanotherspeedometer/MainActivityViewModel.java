@@ -102,6 +102,11 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
         return Transformations.map(settingsStore.getUseImperialUnits(), useImperialUnits -> useImperialUnits ? "mph" : "km/h");
     }
 
+    public LiveData<Boolean> keepScreenOn()
+    {
+        return settingsStore.getKeepScreenOn();
+    }
+
     public void toggleRecording()
     {
         if(isRecording.getValue())
