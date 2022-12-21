@@ -16,7 +16,6 @@ import org.unibl.etf.yetanotherspeedometer.db.entity.RecordingPoint;
 import org.unibl.etf.yetanotherspeedometer.location.SpeedDetailsUseCase;
 import org.unibl.etf.yetanotherspeedometer.repository.LocationRepository;
 import org.unibl.etf.yetanotherspeedometer.settings.SettingsStore;
-import org.unibl.etf.yetanotherspeedometer.util.UnitFormatters;
 import org.unibl.etf.yetanotherspeedometer.util.UnitFormattersTransformations;
 
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class MainActivityViewModel extends ViewModel implements DefaultLifecycle
     }
 
     public LiveData<String> getCurrentSpeed() {
-        return Transformations.map(locationRepository.getCurrentSpeed(), speed -> UnitFormatters.formatCurrentSpeed(speed));
+        return unitFormatters.formatCurrentSpeed(locationRepository.getCurrentSpeed());
     }
 
     public MutableLiveData<String> getUpdateCount() {

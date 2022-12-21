@@ -8,6 +8,9 @@ import java.time.temporal.TemporalUnit;
 
 public class UnitFormatters {
 
+    private static final double KM_PER_HOUR = 3.6;
+    private static final double MI_PER_HOUR = 2.2369362921;
+
     private final SettingsStore settingsStore;
 
     public UnitFormatters(SettingsStore settingsStore)
@@ -17,12 +20,12 @@ public class UnitFormatters {
 
     public static String formatSpeedKmPerHour(double speed)
     {
-        return String.format("%d km/h", Math.round(speed * 3.6));
+        return String.format("%d km/h", Math.round(speed * KM_PER_HOUR));
     }
 
     public static String formatSpeedMilesPerHour(double speed)
     {
-        return String.format("%d mph", Math.round(speed * 2.2369362921));
+        return String.format("%d mph", Math.round(speed * MI_PER_HOUR));
     }
 
     public static String formatDistanceMiles(double distance)
@@ -49,9 +52,14 @@ public class UnitFormatters {
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
-    public static String formatCurrentSpeed(Double speed)
+    public static String formatCurrentSpeedKmPerHour(double speed)
     {
-        return String.format("%03d", speed != null ? Math.round(speed) : 0);
+        return String.format("%03d", Math.round(speed * KM_PER_HOUR));
+    }
+
+    public static String formatCurrentSpeedMilesPerHour(double speed)
+    {
+        return String.format("%03d", Math.round(speed * MI_PER_HOUR));
     }
 
     private boolean useImperialUnits()

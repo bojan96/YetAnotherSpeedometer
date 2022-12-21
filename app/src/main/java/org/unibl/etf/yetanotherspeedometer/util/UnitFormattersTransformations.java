@@ -1,5 +1,7 @@
 package org.unibl.etf.yetanotherspeedometer.util;
 
+import android.widget.Switch;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
@@ -10,11 +12,13 @@ public class UnitFormattersTransformations {
     private final SettingsStore settingsStore;
     private final SwitchLiveData<String> _speedLiveData;
     private final SwitchLiveData<String> _distanceLiveData;
+    private final SwitchLiveData<String> _currentSpeedLiveData;
 
     public UnitFormattersTransformations(SettingsStore settingsStore) {
         this.settingsStore = settingsStore;
         _speedLiveData = new SwitchLiveData<>(settingsStore.getUseImperialUnits());
         _distanceLiveData = new SwitchLiveData<>(settingsStore.getUseImperialUnits());
+        _currentSpeedLiveData = new SwitchLiveData<>(settingsStore.getUseImperialUnits());
     }
 
     public static LiveData<String> formatSpeedToKmPerHour(LiveData<Double> speed) {
@@ -39,5 +43,12 @@ public class UnitFormattersTransformations {
         return _distanceLiveData
                 .ifFalse(Transformations.map(distance, d -> UnitFormatters.formatDistanceMeters(d)))
                 .ifTrue(Transformations.map(distance, d -> UnitFormatters.formatDistanceMiles(d)));
+    }
+
+    public LiveData<String> formatCurrentSpeed(LiveData<Double> speed)
+    {
+        return _currentSpeedLiveData
+                .ifFalse(Transformations.map(speed, s -> UnitFormatters.formatCurrentSpeedKmPerHour(s)))
+                .ifTrue(Transformations.map(speed, s -> UnitFormatters.formatCurrentSpeedMilesPerHour(s)));
     }
 }
