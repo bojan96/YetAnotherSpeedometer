@@ -49,6 +49,7 @@ public class SpeedDetailsUseCase {
     private boolean isRecording = false;
     private List<PointInfo> points = new ArrayList<>();
     private int maxSpeedPointIndex = -1;
+    private long notMovingCounts = 0;
 
     private final Observer<Location> locationObserver = location ->
     {
@@ -63,8 +64,10 @@ public class SpeedDetailsUseCase {
         }
 
         double distance = location.distanceTo(lastLocation);
-        if(distance < 1) {
+        if(compareDoubles(location.getSpeed(), 0, 0.1)) {
             lastTimestamp = System.nanoTime();
+            Log.d(TAG, String.format("Not moving: %d (%f, %f) (%f, %f)\n", ++notMovingCounts,
+                    location.getLatitude(), location.getLongitude(), lastLocation.getLatitude(), lastLocation.getLongitude()));
             return;
         }
 
@@ -87,6 +90,11 @@ public class SpeedDetailsUseCase {
         currentTotalDistance.postValue(totalDistance);
         points.add(new PointInfo(location));
     };
+
+    private static boolean compareDoubles(double lhs, double rhs, double epsilon)
+    {
+        return Math.abs(lhs - rhs) < epsilon;
+    }
 
     @Inject
     public SpeedDetailsUseCase(LocationRepository locationRepository, ElapsedTimeTimer timer)
