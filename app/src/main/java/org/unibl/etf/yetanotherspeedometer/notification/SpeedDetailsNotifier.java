@@ -61,7 +61,7 @@ public class SpeedDetailsNotifier {
     private Notification createNotification(double currentSpeed)
     {
         return new Notification.Builder(application, application.getString(R.string.location_notification_channel_id))
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(application.getString(R.string.location_notification_title))
                 .setContentText(unitFormatters.formatSpeed(currentSpeed))
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -71,7 +71,7 @@ public class SpeedDetailsNotifier {
     private Notification createRecordingNotification(double currentSpeed, double totalDistance, long elapsedTime)
     {
         return new Notification.Builder(application, application.getString(R.string.location_notification_channel_id))
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(application.getString(R.string.location_notification_title))
                 .setContentText(String.format("%s, %s, %s",
                         unitFormatters.formatSpeed(currentSpeed),
